@@ -2400,7 +2400,7 @@ public class WifiNative {
      * @param ifaceName Name of the interface.
      */
     public WifiLinkLayerStats getWifiLinkLayerStats(@NonNull String ifaceName) {
-        return mWifiVendorHal.getWifiLinkLayerStats(ifaceName);
+        return null;
     }
 
     /**

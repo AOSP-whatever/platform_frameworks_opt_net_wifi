@@ -927,25 +927,7 @@ public class WifiVendorHal {
      * @return the statistics, or null if unable to do so
      */
     public WifiLinkLayerStats getWifiLinkLayerStats(@NonNull String ifaceName) {
-        class AnswerBox {
-            public StaLinkLayerStats value = null;
-        }
-        AnswerBox answer = new AnswerBox();
-        synchronized (sLock) {
-            try {
-                IWifiStaIface iface = getStaIface(ifaceName);
-                if (iface == null) return null;
-                iface.getLinkLayerStats((status, stats) -> {
-                    if (!ok(status)) return;
-                    answer.value = stats;
-                });
-            } catch (RemoteException e) {
-                handleRemoteException(e);
-                return null;
-            }
-        }
-        WifiLinkLayerStats stats = frameworkFromHalLinkLayerStats(answer.value);
-        return stats;
+        return null;
     }
 
     /**
@@ -2211,36 +2193,7 @@ public class WifiVendorHal {
      * @return true for success
      */
     public boolean getTxPktFates(@NonNull String ifaceName, WifiNative.TxFateReport[] reportBufs) {
-        if (ArrayUtils.isEmpty(reportBufs)) return boolResult(false);
-        synchronized (sLock) {
-            IWifiStaIface iface = getStaIface(ifaceName);
-            if (iface == null) return boolResult(false);
-            try {
-                MutableBoolean ok = new MutableBoolean(false);
-                iface.getDebugTxPacketFates((status, fates) -> {
-                            if (!ok(status)) return;
-                            int i = 0;
-                            for (WifiDebugTxPacketFateReport fate : fates) {
-                                if (i >= reportBufs.length) break;
-                                byte code = halToFrameworkTxPktFate(fate.fate);
-                                long us = fate.frameInfo.driverTimestampUsec;
-                                byte type =
-                                        halToFrameworkPktFateFrameType(fate.frameInfo.frameType);
-                                byte[] frame =
-                                        NativeUtil.byteArrayFromArrayList(
-                                                fate.frameInfo.frameContent);
-                                reportBufs[i++] =
-                                        new WifiNative.TxFateReport(code, us, type, frame);
-                            }
-                            ok.value = true;
-                        }
-                );
-                return ok.value;
-            } catch (RemoteException e) {
-                handleRemoteException(e);
-                return false;
-            }
-        }
+        return boolResult(false);
     }
 
     /**
@@ -2253,36 +2206,7 @@ public class WifiVendorHal {
      * @return true for success
      */
     public boolean getRxPktFates(@NonNull String ifaceName, WifiNative.RxFateReport[] reportBufs) {
-        if (ArrayUtils.isEmpty(reportBufs)) return boolResult(false);
-        synchronized (sLock) {
-            IWifiStaIface iface = getStaIface(ifaceName);
-            if (iface == null) return boolResult(false);
-            try {
-                MutableBoolean ok = new MutableBoolean(false);
-                iface.getDebugRxPacketFates((status, fates) -> {
-                            if (!ok(status)) return;
-                            int i = 0;
-                            for (WifiDebugRxPacketFateReport fate : fates) {
-                                if (i >= reportBufs.length) break;
-                                byte code = halToFrameworkRxPktFate(fate.fate);
-                                long us = fate.frameInfo.driverTimestampUsec;
-                                byte type =
-                                        halToFrameworkPktFateFrameType(fate.frameInfo.frameType);
-                                byte[] frame =
-                                        NativeUtil.byteArrayFromArrayList(
-                                                fate.frameInfo.frameContent);
-                                reportBufs[i++] =
-                                        new WifiNative.RxFateReport(code, us, type, frame);
-                            }
-                            ok.value = true;
-                        }
-                );
-                return ok.value;
-            } catch (RemoteException e) {
-                handleRemoteException(e);
-                return false;
-            }
-        }
+        return boolResult(false);
     }
 
     /**
