@@ -3715,8 +3715,12 @@ public class ClientModeImpl extends StateMachine {
                     break;
                 case CMD_REMOVE_PASSPOINT_CONFIG:
                     int removeResult = mPasspointManager.removeProvider(
+<<<<<<< HEAD
                             message.sendingUid, message.arg1 == 1, (String) message.obj)
                             ? SUCCESS : FAILURE;
+=======
+                            message.sendingUid, (String) message.obj) ? SUCCESS : FAILURE;
+>>>>>>> 9803ee9d5... [Suggestion] Check foreground user for API call
                     replyToMessage(message, message.what, removeResult);
                     break;
                 case CMD_GET_PASSPOINT_CONFIGS:
@@ -4567,8 +4571,12 @@ public class ClientModeImpl extends StateMachine {
                     break;
                 case CMD_REMOVE_PASSPOINT_CONFIG:
                     String fqdn = (String) message.obj;
+<<<<<<< HEAD
                     if (mPasspointManager.removeProvider(
                             message.sendingUid, message.arg1 == 1, fqdn)) {
+=======
+                    if (mPasspointManager.removeProvider(message.sendingUid, fqdn)) {
+>>>>>>> 9803ee9d5... [Suggestion] Check foreground user for API call
                         if (isProviderOwnedNetwork(mTargetNetworkId, fqdn)
                                 || isProviderOwnedNetwork(mLastNetworkId, fqdn)) {
                             logd("Disconnect from current network since its provider is removed");

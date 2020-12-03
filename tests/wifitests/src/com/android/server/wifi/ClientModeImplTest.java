@@ -1920,13 +1920,21 @@ public class ClientModeImplTest {
     @Test
     public void syncRemovePasspointConfig() throws Exception {
         String fqdn = "test.com";
+<<<<<<< HEAD
         when(mPasspointManager.removeProvider(anyInt(), anyBoolean(), eq(fqdn))).thenReturn(true);
+=======
+        when(mPasspointManager.removeProvider(anyInt(), eq(fqdn))).thenReturn(true);
+>>>>>>> 9803ee9d5... [Suggestion] Check foreground user for API call
         mLooper.startAutoDispatch();
         assertTrue(mCmi.syncRemovePasspointConfig(mCmiAsyncChannel, true, fqdn));
         mLooper.stopAutoDispatch();
         reset(mPasspointManager);
 
+<<<<<<< HEAD
         when(mPasspointManager.removeProvider(anyInt(), anyBoolean(), eq(fqdn))).thenReturn(false);
+=======
+        when(mPasspointManager.removeProvider(anyInt(), eq(fqdn))).thenReturn(false);
+>>>>>>> 9803ee9d5... [Suggestion] Check foreground user for API call
         mLooper.startAutoDispatch();
         assertFalse(mCmi.syncRemovePasspointConfig(mCmiAsyncChannel, true, fqdn));
         mLooper.stopAutoDispatch();
@@ -3652,8 +3660,12 @@ public class ClientModeImplTest {
     @Test
     public void testRemovePasspointConfig() throws Exception {
         String fqdn = "test.com";
+<<<<<<< HEAD
         when(mPasspointManager.removeProvider(anyInt(), anyBoolean(), anyString()))
                 .thenReturn(true);
+=======
+        when(mPasspointManager.removeProvider(anyInt(), anyString())).thenReturn(true);
+>>>>>>> 9803ee9d5... [Suggestion] Check foreground user for API call
 
         // switch to connect mode and verify wifi is reported as enabled
         startSupplicantAndDispatchMessages();
